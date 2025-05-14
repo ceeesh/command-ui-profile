@@ -1,13 +1,11 @@
-import { useState } from 'react'
+import Terminal from "./components/Terminals";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-   <div className="w-screen h-screen text-white bg-black" onClick={() => setCount(prev => prev += 1)}>{count}</div>
-    </>
-  )
+    <div className="w-screen h-screen bg-gray-900 flex items-center justify-center">
+      <Terminal />
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+.terminal-container {
+  background-color: #000;
+  color: #0f0;
+  font-family: monospace;
+  padding: 1rem;
+  height: 500px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid #333;
+  width: 70%;
+}
+
+.terminal-output {
+  margin-bottom: 0.5rem;
+}
+
+.terminal-command {
+  color: #0f0;
+}
+
+.terminal-response {
+  color: #ccc;
+  margin-left: 1rem;
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-input input {
+  background: transparent;
+  border: none;
+  color: #0f0;
+  font-family: monospace;
+  outline: none;
+  width: 100%;
+}
