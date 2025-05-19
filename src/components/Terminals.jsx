@@ -36,22 +36,22 @@ const Terminal = () => {
   };
 
   return (
-    <div className="terminal-container">
-      <div className="terminal-output">
+    <div className="bg-black text-green-500 font-mono p-4 h-[500px] overflow-y-auto rounded-md border border-gray-800 w-[70%]">
+      <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
-            <div className="terminal-command">{">"} {item.command}</div>
-            <div className="terminal-response">{item.output}</div>
+            <div className="text-green-500">{">"} {item.command}</div>
+            <div className="text-gray-300 ml-4">{item.output}</div>
           </div>
         ))}
         <div ref={terminalEndRef} />
       </div>
-      <form onSubmit={handleSubmit} className="terminal-input">
+      <form onSubmit={handleSubmit} className="flex items-center">
         <span>&gt;{" "}</span>
         <input
           type="text"
           value={input}
-          className="pl-2"
+          className="bg-transparent border-none text-green-500 font-mono outline-none w-full pl-2"
           onChange={(e) => setInput(e.target.value)}
           autoFocus
         />
