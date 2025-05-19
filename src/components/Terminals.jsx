@@ -5,27 +5,36 @@ const Terminal = () => {
   const [input, setInput] = useState("");
   const terminalEndRef = useRef(null);
 
+  const availableCommands = {
+    help: () =>
+      `Available commands: ${Object.keys(availableCommands).join(", ")}`,
+    date: () => new Date().toString(),
+    echo: (args) => args.join(" "),
+    clear: () => null, 
+  };
+
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
-  const handleCommand = (cmd) => {
-    let output = "";
+  const handleCommand = (input) => {
+    const [cmd, ...args] = input.trim().split(" ");
 
-    if (cmd === "help") {
-      output = "Available commands: help, clear, echo, date";
-    } else if (cmd.startsWith("echo ")) {
-      output = cmd.slice(5);
-    } else if (cmd === "date") {
-      output = new Date().toString();
-    } else if (cmd === "clear") {
+    if (cmd === "clear") {
       setHistory([]);
       return;
+    }
+
+    const commandFn = availableCommands[cmd];
+
+    let output;
+    if (commandFn) {
+      output = commandFn(args);
     } else {
       output = `Unknown command: ${cmd}`;
     }
 
-    setHistory([...history, { command: cmd, output }]);
+    setHistory([...history, { command: input, output }]);
   };
 
   const handleSubmit = (e) => {
@@ -40,14 +49,16 @@ const Terminal = () => {
       <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
-            <div className="text-green-500">{">"} {item.command}</div>
+            <div className="text-green-500">
+              {">"} {item.command}
+            </div>
             <div className="text-gray-300 ml-4">{item.output}</div>
           </div>
         ))}
         <div ref={terminalEndRef} />
       </div>
       <form onSubmit={handleSubmit} className="flex items-center">
-        <span>&gt;{" "}</span>
+        <span>&gt; </span>
         <input
           type="text"
           value={input}
