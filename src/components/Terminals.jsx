@@ -1,4 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { PROFILE } from "../constants/details";
+import { COMMANDS } from "../constants/general";
+import resume from "../assets/CeeJayMalacas2025-Resume.pdf";
 
 const Terminal = () => {
   const [history, setHistory] = useState([]);
@@ -6,12 +9,13 @@ const Terminal = () => {
   const terminalEndRef = useRef(null);
 
   const availableCommands = {
-    help: () =>
-      `Available commands: ${Object.keys(availableCommands).join(", ")}`,
+    help: () => COMMANDS.HELP.trim(),
     date: () => new Date().toString(),
     echo: (args) => args.join(" "),
-    clear: () => null, 
-    ls: () => `what do you want`
+    clear: () => null,
+    ls: () => `what do you want`,
+    profile: () => PROFILE.DETAILS.trim(),
+    languages: () => PROFILE.LANGUAGES.trim(),
   };
 
   useEffect(() => {
@@ -19,15 +23,24 @@ const Terminal = () => {
   }, [history]);
 
   const handleCommand = (input) => {
-    const [cmd, ...args] = input.trim().split(" ");
+    const [cmdRaw, ...args] = input.trim().split(" ");
+    const cmd = cmdRaw === "cls" ? "clear" : cmdRaw;
 
     if (cmd === "clear") {
       setHistory([]);
       return;
     }
 
-    const commandFn = availableCommands[cmd];
+    if (cmd === "resume") {
+      window.open(resume, "_blank");
+      setHistory([
+        ...history,
+        { command: input, output: `Opened resume in new tab.` },
+      ]);
+      return;
+    }
 
+    const commandFn = availableCommands[cmd];
     let output;
     if (commandFn) {
       output = commandFn(args);
@@ -53,7 +66,9 @@ const Terminal = () => {
             <div className="text-green-500">
               {">"} {item.command}
             </div>
-            <div className="text-gray-300 ml-4">{item.output}</div>
+            <div className="text-gray-300 ml-4 whitespace-pre-wrap">
+              {item.output}
+            </div>
           </div>
         ))}
         <div ref={terminalEndRef} />
