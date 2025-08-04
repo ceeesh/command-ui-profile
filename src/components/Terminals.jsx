@@ -11,6 +11,7 @@ const Terminal = () => {
     date: () => new Date().toString(),
     echo: (args) => args.join(" "),
     clear: () => null, 
+    ls: () => `what do you want`
   };
 
   useEffect(() => {
