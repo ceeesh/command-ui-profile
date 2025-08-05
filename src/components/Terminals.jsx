@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { PROFILE, SOCIALS } from "../constants/details";
-import { COMMANDS } from "../constants/general";
+import { COMMANDS, OTHERS } from "../constants/general";
 import resume from "../assets/Resume.pdf";
 
 const Terminal = () => {
@@ -38,6 +38,13 @@ const Terminal = () => {
         return `Unknown platform: ${platform}`;
       }
     },
+    availability: () => OTHERS.AVAILABILITY,
+    email: () => {
+    const email = PROFILE.EMAIL;
+    const mailtoLink = `mailto:${email}`;
+    window.open(mailtoLink, "_blank");
+    return `Opening email client for: ${email}`;
+  },
   };
 
   useEffect(() => {

@@ -19,6 +19,8 @@ Languages:
 - Ruby 
 - Ruby on Rails
 `,
+
+EMAIL: `ceejaymalacas17@gmail.com`
 };
 
 export const SOCIALS = {
