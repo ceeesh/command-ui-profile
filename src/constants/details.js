@@ -21,3 +21,8 @@ Languages:
 `,
 };
 
+export const SOCIALS = {
+  fb: "https://www.facebook.com/ceejay.malacas/",
+  github: "https://github.com/ceeesh",
+  linkedin: "https://www.linkedin.com/in/cee-jay-malacas/",
+};

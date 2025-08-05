@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { PROFILE } from "../constants/details";
+import { PROFILE, SOCIALS } from "../constants/details";
 import { COMMANDS } from "../constants/general";
-import resume from "../assets/CeeJayMalacas2025-Resume.pdf";
+import resume from "../assets/Resume.pdf";
 
 const Terminal = () => {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
   const terminalEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   const availableCommands = {
     help: () => COMMANDS.HELP.trim(),
@@ -16,6 +17,27 @@ const Terminal = () => {
     ls: () => `what do you want`,
     profile: () => PROFILE.DETAILS.trim(),
     languages: () => PROFILE.LANGUAGES.trim(),
+    // Show all socials
+    socials: () => {
+      return Object.entries(SOCIALS)
+        .map(([platform, url]) => `${platform}: ${url}`)
+        .join("\n");
+    },
+
+    // Open specific social link
+    social: (args) => {
+      if (args.length === 0) return "Usage: social [platform]\nTry: social fb";
+
+      const platform = args[0].toLowerCase();
+      const url = SOCIALS[platform];
+
+      if (url) {
+        window.open(url, "_blank");
+        return `Opening ${platform}...`;
+      } else {
+        return `Unknown platform: ${platform}`;
+      }
+    },
   };
 
   useEffect(() => {
@@ -59,7 +81,10 @@ const Terminal = () => {
   };
 
   return (
-    <div className="bg-black text-green-500 font-mono p-4 h-[500px] overflow-y-auto rounded-md border border-gray-800 w-[70%]">
+    <div
+      className="bg-black text-green-500 font-mono p-4 h-[500px] overflow-y-auto rounded-md border border-gray-800 w-[70%]"
+      onClick={() => inputRef.current?.focus()}
+    >
       <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
@@ -76,6 +101,7 @@ const Terminal = () => {
       <form onSubmit={handleSubmit} className="flex items-center">
         <span>&gt; </span>
         <input
+          ref={inputRef}
           type="text"
           value={input}
           className="bg-transparent border-none text-green-500 font-mono outline-none w-full pl-2"
