@@ -1,10 +1,8 @@
 export const COMMANDS = {
   HELP: `Available commands:
 - profile        Show basic info
-- contact        Contact details
 - socials        Social Media Accounts
 - social [name]  Open Social Media
-- skills         General skills
 - languages      Programming languages
 - projects       List projects
 - project [name] Show project details
