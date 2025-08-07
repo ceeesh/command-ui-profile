@@ -6,8 +6,12 @@ import resume from "../assets/Resume.pdf";
 const Terminal = () => {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
+  const [commandHistory, setCommandHistory] = useState([]); 
+  const [historyIndex, setHistoryIndex] = useState(null); 
   const terminalEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  console.log(commandHistory)
 
   const availableCommands = {
     help: () => COMMANDS.HELP.trim(),
@@ -17,20 +21,15 @@ const Terminal = () => {
     ls: () => `what do you want`,
     profile: () => PROFILE.DETAILS.trim(),
     languages: () => PROFILE.LANGUAGES.trim(),
-    // Show all socials
     socials: () => {
       return Object.entries(SOCIALS)
         .map(([platform, url]) => `${platform}: ${url}`)
         .join("\n");
     },
-
-    // Open specific social link
     social: (args) => {
       if (args.length === 0) return "Usage: social [platform]\nTry: social fb";
-
       const platform = args[0].toLowerCase();
       const url = SOCIALS[platform];
-
       if (url) {
         window.open(url, "_blank");
         return `Opening ${platform}...`;
@@ -40,19 +39,18 @@ const Terminal = () => {
     },
     availability: () => OTHERS.AVAILABILITY,
     email: () => {
-    const email = PROFILE.EMAIL;
-    const mailtoLink = `mailto:${email}`;
-    window.open(mailtoLink, "_blank");
-    return `Opening email client for: ${email}`;
-  },
+      const email = PROFILE.EMAIL;
+      window.open(`mailto:${email}`, "_blank");
+      return `Opening email client for: ${email}`;
+    },
   };
 
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
-  const handleCommand = (input) => {
-    const [cmdRaw, ...args] = input.trim().split(" ");
+  const handleCommand = (inputValue) => {
+    const [cmdRaw, ...args] = inputValue.trim().split(" ");
     const cmd = cmdRaw === "cls" ? "clear" : cmdRaw;
 
     if (cmd === "clear") {
@@ -62,10 +60,7 @@ const Terminal = () => {
 
     if (cmd === "resume") {
       window.open(resume, "_blank");
-      setHistory([
-        ...history,
-        { command: input, output: `Opened resume in new tab.` },
-      ]);
+      setHistory([...history, { command: inputValue, output: `Opened resume in new tab.` }]);
       return;
     }
 
@@ -77,14 +72,36 @@ const Terminal = () => {
       output = `Unknown command: ${cmd}`;
     }
 
-    setHistory([...history, { command: input, output }]);
+    setHistory([...history, { command: inputValue, output }]);
+    setCommandHistory((prev) => [...prev, inputValue]); 
+    setHistoryIndex(null); 
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
-    handleCommand(input.trim());
+    handleCommand(input);
     setInput("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (commandHistory.length === 0) return;
+
+      const newIndex = historyIndex === null ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
+      setHistoryIndex(newIndex);
+      setInput(commandHistory[newIndex]);
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (commandHistory.length === 0 || historyIndex === null) return;
+
+      const newIndex = Math.min(commandHistory.length - 1, historyIndex + 1);
+      setHistoryIndex(newIndex);
+      setInput(commandHistory[newIndex] || "");
+    }
   };
 
   return (
@@ -95,12 +112,8 @@ const Terminal = () => {
       <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
-            <div className="text-green-500">
-              {">"} {item.command}
-            </div>
-            <div className="text-gray-300 ml-4 whitespace-pre-wrap">
-              {item.output}
-            </div>
+            <div className="text-green-500">{">"} {item.command}</div>
+            <div className="text-gray-300 ml-4 whitespace-pre-wrap">{item.output}</div>
           </div>
         ))}
         <div ref={terminalEndRef} />
@@ -111,8 +124,9 @@ const Terminal = () => {
           ref={inputRef}
           type="text"
           value={input}
-          className="bg-transparent border-none text-green-500 font-mono outline-none w-full pl-2"
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown} 
+          className="bg-transparent border-none text-green-500 font-mono outline-none w-full pl-2"
           autoFocus
         />
       </form>
