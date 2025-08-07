@@ -4,14 +4,15 @@ export const COMMANDS = {
 - socials        Social Media Accounts
 - social [name]  Open Social Media
 - languages      Programming languages
-- projects       List projects
-- project [name] Show project details
+
 - resume         Download resume
 - availability   Show job availability
 - email          Show email address
 - clear / cls    Clear the screen
 - help           Show this help
 `
+// - projects       List projects
+// - project [name] Show project details
 };
 
 export const OTHERS = {
