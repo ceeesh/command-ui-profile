@@ -11,8 +11,6 @@ const Terminal = () => {
   const terminalEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  console.log(commandHistory)
-
   const availableCommands = {
     help: () => COMMANDS.HELP.trim(),
     date: () => new Date().toString(),
