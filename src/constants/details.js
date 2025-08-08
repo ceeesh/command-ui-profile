@@ -33,36 +33,36 @@ export const PROJECTS = {
   "halocheck": {
     name: "HaloCheck",
     tech: "WordPress",
-    description: "A WordPress-based platform for background checks and identity verification."
+    description: "Public-facing platform for Malaysia and Singapore that provides secure background checks and identity verification services for individuals and businesses."
   },
   "verity-intelligence": {
     name: "Verity Intelligence",
     tech: "WordPress",
-    description: "Corporate intelligence and background screening solutions website."
+    description: "Corporate intelligence website offering professional background screening, due diligence, and risk management solutions in Malaysia and Singapore."
   },
   "halocheck-app": {
-    name: "HaloCheck Internal/Client App",
+    name: "HaloCheck-App",
     tech: "ReactJS / Python Flask",
-    description: "Internal and client-facing application for managing background checks."
+    description: "Secure internal and client-facing web application enabling the management, tracking, and processing of background check requests with real-time status updates."
   },
   "capital-office-uk": {
     name: "Capital Office UK",
     tech: "ReactJS / Laravel",
-    description: "Virtual office solutions provider platform for UK businesses."
+    description: "Online platform providing virtual office addresses, mail forwarding, and company formation services for UK-based businesses and entrepreneurs."
   },
   "fetch-workpapers": {
     name: "Fetch Workpapers",
     tech: "ReactJS / Laravel",
-    description: "Cloud-based solution for managing accounting workpapers."
+    description: "Cloud-based solution for accountants and auditors to create, manage, and collaborate on workpapers with version control and secure data storage."
   },
   "elder-armor-usa": {
     name: "Elder Armor USA",
     tech: "WordPress",
-    description: "E-commerce platform for senior protective gear and supplements."
+    description: "E-commerce store specializing in protective gear, health supplements, and wellness products tailored for senior citizens in the United States."
   },
   "weby": {
     name: "Weby",
     tech: "ReactJS / Ruby on Rails",
-    description: "Collaborative web application platform for project management."
+    description: "Collaborative project management and communication platform designed to streamline workflows, share resources, and track team progress in real time."
   }
 };
