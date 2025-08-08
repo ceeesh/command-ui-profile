@@ -9,7 +9,6 @@ Experience: 2-3 years
 `,
 
     LANGUAGES: `
-Languages:
 - ReactJS
 - JavaScript
 - Python
