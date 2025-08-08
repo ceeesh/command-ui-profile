@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { PROFILE, SOCIALS } from "../constants/details";
+import { PROFILE, PROJECTS, SOCIALS } from "../constants/details";
 import { COMMANDS, OTHERS } from "../constants/general";
 import resume from "../assets/Resume.pdf";
 
 const Terminal = () => {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
-  const [commandHistory, setCommandHistory] = useState([]); 
-  const [historyIndex, setHistoryIndex] = useState(null); 
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(null);
   const terminalEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -41,6 +41,25 @@ const Terminal = () => {
       window.open(`mailto:${email}`, "_blank");
       return `Opening email client for: ${email}`;
     },
+    projects: () => {
+      return Object.values(PROJECTS)
+        .map((p) => `${p.name} (${p.tech})`)
+        .join("\n");
+    },
+    project: (args) => {
+      if (args.length === 0) {
+        return "Usage: project [name]\nExample: project halocheck";
+      }
+
+      const key = args.join("-").toLowerCase();
+      const project = PROJECTS[key];
+
+      if (!project) {
+        return `Project not found: ${args.join(" ")}`;
+      }
+
+      return `${project.name}\nTech Stack: ${project.tech}\nDescription: ${project.description}`;
+    },
   };
 
   useEffect(() => {
@@ -58,7 +77,10 @@ const Terminal = () => {
 
     if (cmd === "resume") {
       window.open(resume, "_blank");
-      setHistory([...history, { command: inputValue, output: `Opened resume in new tab.` }]);
+      setHistory([
+        ...history,
+        { command: inputValue, output: `Opened resume in new tab.` },
+      ]);
       return;
     }
 
@@ -71,8 +93,8 @@ const Terminal = () => {
     }
 
     setHistory([...history, { command: inputValue, output }]);
-    setCommandHistory((prev) => [...prev, inputValue]); 
-    setHistoryIndex(null); 
+    setCommandHistory((prev) => [...prev, inputValue]);
+    setHistoryIndex(null);
   };
 
   const handleSubmit = (e) => {
@@ -87,7 +109,10 @@ const Terminal = () => {
       e.preventDefault();
       if (commandHistory.length === 0) return;
 
-      const newIndex = historyIndex === null ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
+      const newIndex =
+        historyIndex === null
+          ? commandHistory.length - 1
+          : Math.max(0, historyIndex - 1);
       setHistoryIndex(newIndex);
       setInput(commandHistory[newIndex]);
     }
@@ -110,8 +135,12 @@ const Terminal = () => {
       <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
-            <div className="text-green-500">{">"} {item.command}</div>
-            <div className="text-gray-300 ml-4 whitespace-pre-wrap">{item.output}</div>
+            <div className="text-green-500">
+              {">"} {item.command}
+            </div>
+            <div className="text-gray-300 ml-4 whitespace-pre-wrap">
+              {item.output}
+            </div>
           </div>
         ))}
         <div ref={terminalEndRef} />
@@ -123,7 +152,7 @@ const Terminal = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown} 
+          onKeyDown={handleKeyDown}
           className="bg-transparent border-none text-green-500 font-mono outline-none w-full pl-2"
           autoFocus
         />
