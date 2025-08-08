@@ -60,6 +60,155 @@ const Terminal = () => {
 
       return `${project.name}\nTech Stack: ${project.tech}\nDescription: ${project.description}`;
     },
+    hack: () => {
+      const hexChars = "0123456789ABCDEF";
+      const binaryChars = "01";
+
+      const hackingSequences = [
+        // Hex data stream
+        {
+          type: "data",
+          count: 20,
+          generator: () => {
+            if (Math.random() > 0.5) {
+              let hex = Array.from(
+                { length: 8 },
+                () => hexChars[Math.floor(Math.random() * hexChars.length)]
+              ).join("");
+
+              let data = Array.from(
+                { length: 16 },
+                () => hexChars[Math.floor(Math.random() * hexChars.length)]
+              )
+                .join("")
+                .match(/.{2}/g)
+                .join(" ");
+
+              return `${hex}: ${data}`;
+            } else {
+              return Array.from(
+                { length: 64 },
+                () =>
+                  binaryChars[Math.floor(Math.random() * binaryChars.length)]
+              )
+                .join("")
+                .match(/.{8}/g)
+                .join(" ");
+            }
+          },
+        },
+        // Cracking phase
+        {
+          type: "messages",
+          messages: [
+            "Initiating brute force attack...",
+            "Dictionary loaded: 10,000,000 entries",
+            "Attempting password: admin123... FAILED",
+            "Attempting password: password1... FAILED",
+            "Attempting password: qwerty123... FAILED",
+            "Attempting password: welcome2024... FAILED",
+            "Attempting password: summer2023... FAILED",
+            "Rainbow table attack initiated...",
+            "Hash collision detected...",
+            "Password cracked: n3v3rg0nn4g1v3y0uup",
+          ],
+        },
+        // System infiltration
+        {
+          type: "messages",
+          messages: [
+            "Establishing reverse shell...",
+            "Shell spawned on 192.168.1.100:4444",
+            "Escalating privileges...",
+            "Root access obtained",
+            "Disabling firewall rules...",
+            "Injecting payload...",
+            "Backdoor installed successfully",
+            "Covering tracks...",
+          ],
+        },
+      ];
+
+      let delay = 0;
+
+      // Show initial command
+      setHistory((prev) => [
+        ...prev,
+        {
+          command: "hack",
+          output: "Initializing attack sequence...",
+          className: "text-cyan-400",
+        },
+      ]);
+
+      delay += 300;
+
+      hackingSequences.forEach((seq) => {
+        if (seq.type === "data") {
+          for (let i = 0; i < seq.count; i++) {
+            setTimeout(() => {
+              setHistory((prev) => [
+                ...prev,
+                {
+                  command: "",
+                  output: seq.generator(),
+                  className: "text-green-400 font-mono text-sm",
+                },
+              ]);
+            }, delay);
+            delay += Math.random() * 100 + 50;
+          }
+        } else {
+          seq.messages.forEach((msg) => {
+            setTimeout(() => {
+              setHistory((prev) => [
+                ...prev,
+                { command: "", output: msg, className: "text-cyan-400" },
+              ]);
+            }, delay);
+            delay += Math.random() * 200 + 100;
+          });
+        }
+        delay += 500;
+      });
+
+      // Final dramatic ASCII art
+      const finalMessages = [
+        "All systems compromised",
+        "Downloading classified files...",
+        "Transfer complete: 2.3GB",
+        "Wiping log files...",
+        "Connection terminated",
+        "",
+        "██████╗  ██████╗ ██████╗ ████████╗",
+        "██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝",
+        "██████╔╝██║   ██║██║  ██║   ██║   ",
+        "██╔══██╗██║   ██║██║  ██║   ██║   ",
+        "██║  ██║╚██████╔╝██████╔╝   ██║   ",
+        "╚═╝  ╚═╝ ╚═════╝ ╚═════╝    ╚═╝   ",
+        "",
+        ">>> ACCESS GRANTED <<<",
+      ];
+
+      finalMessages.forEach((msg, idx) => {
+        setTimeout(() => {
+          setHistory((prev) => [
+            ...prev,
+            {
+              command: "",
+              output: msg,
+              className:
+                idx >= finalMessages.length - 8
+                  ? "text-red-400 font-bold"
+                  : "text-green-400",
+            },
+          ]);
+        }, delay);
+        delay += idx >= finalMessages.length - 8 ? 150 : 100;
+      });
+
+      return null; // Prevents default printing since we're handling output manually
+    },
   };
 
   useEffect(() => {
@@ -135,16 +284,24 @@ const Terminal = () => {
       <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
-            <div className="text-green-500">
-              {">"} {item.command}
-            </div>
-            <div className="text-gray-300 ml-4 whitespace-pre-wrap">
+            {/* Only show the prompt if this is an actual command, not generated output */}
+            {item.command && (
+              <div className="text-green-500">
+                {">"} {item.command}
+              </div>
+            )}
+            <div
+              className={`ml-4 whitespace-pre-wrap ${
+                item.className || "text-gray-300"
+              }`}
+            >
               {item.output}
             </div>
           </div>
         ))}
         <div ref={terminalEndRef} />
       </div>
+
       <form onSubmit={handleSubmit} className="flex items-center">
         <span>&gt; </span>
         <input
