@@ -63,10 +63,10 @@ const Terminal = () => {
 
       return `${project.name}\nTech Stack: ${project.tech}\nDescription: ${project.description}`;
     },
-    // snake: () => {
-    //   setCurrentGame('snake');
-    //   return null;
-    // },
+    snake: () => {
+      setCurrentGame('snake');
+      return null;
+    },
     tetris: () => {
       setCurrentGame('tetris');
       return null;
@@ -293,13 +293,13 @@ const Terminal = () => {
     }, 100);
   };
 
-  // if (currentGame === 'snake') {
-  //   return (
-  //     <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-[70%] flex items-center justify-center">
-  //       <SnakeGame onExit={handleGameExit} />
-  //     </div>
-  //   );
-  // }
+  if (currentGame === 'snake') {
+    return (
+      <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-[70%] flex items-center justify-center">
+        <SnakeGame onExit={handleGameExit} />
+      </div>
+    );
+  }
 
   if (currentGame === 'tetris') {
     return (
