@@ -1,13 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { PROFILE, PROJECTS, SOCIALS } from "../constants/details";
 import { COMMANDS, OTHERS } from "../constants/general";
 import resume from "../assets/Resume.pdf";
+import TetrisGame from "./TetrisGame";
+import SnakeGame from "./SnakeGame";
 
 const Terminal = () => {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(null);
+  const [currentGame, setCurrentGame] = useState(null);
   const terminalEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -60,12 +63,19 @@ const Terminal = () => {
 
       return `${project.name}\nTech Stack: ${project.tech}\nDescription: ${project.description}`;
     },
+    // snake: () => {
+    //   setCurrentGame('snake');
+    //   return null;
+    // },
+    tetris: () => {
+      setCurrentGame('tetris');
+      return null;
+    },
     hack: () => {
       const hexChars = "0123456789ABCDEF";
       const binaryChars = "01";
 
       const hackingSequences = [
-        // Hex data stream
         {
           type: "data",
           count: 20,
@@ -276,6 +286,29 @@ const Terminal = () => {
     }
   };
 
+  const handleGameExit = () => {
+    setCurrentGame(null);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+  };
+
+  // if (currentGame === 'snake') {
+  //   return (
+  //     <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-[70%] flex items-center justify-center">
+  //       <SnakeGame onExit={handleGameExit} />
+  //     </div>
+  //   );
+  // }
+
+  if (currentGame === 'tetris') {
+    return (
+      <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-[70%] flex items-center justify-center">
+        <TetrisGame onExit={handleGameExit} />
+      </div>
+    );
+  }
+
   return (
     <div
       className="bg-black text-green-500 font-mono p-4 h-[500px] overflow-y-auto rounded-md border border-gray-800 w-[70%]"
@@ -284,7 +317,6 @@ const Terminal = () => {
       <div className="mb-2">
         {history.map((item, index) => (
           <div key={index}>
-            {/* Only show the prompt if this is an actual command, not generated output */}
             {item.command && (
               <div className="text-green-500">
                 {">"} {item.command}
@@ -302,18 +334,23 @@ const Terminal = () => {
         <div ref={terminalEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center">
+      <div className="flex items-center">
         <span>&gt; </span>
         <input
           ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onKeyDown={(e) => {
+            handleKeyDown(e);
+            if (e.key === 'Enter') {
+              handleSubmit(e);
+            }
+          }}
           className="bg-transparent border-none text-green-500 font-mono outline-none w-full pl-2"
           autoFocus
         />
-      </form>
+      </div>
     </div>
   );
 };

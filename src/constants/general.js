@@ -12,6 +12,8 @@ export const COMMANDS = {
 - date            Show current date and time
 - echo [text]     Print the provided text
 - hack            Simulate hacking animation
+- snake           Play Snake game
+- tetris          Play Tetris game
 - clear / cls     Clear the screen
 - help            Show this help
 `
