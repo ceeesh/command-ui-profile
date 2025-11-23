@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { PROFILE, PROJECTS, SOCIALS } from "../constants/details";
 import { COMMANDS, OTHERS } from "../constants/general";
-import resume from "../assets/Resume.pdf";
+import resume from "../assets/CeeJay Malacas Resume 2025.pdf";
 import TetrisGame from "./TetrisGame";
 import SnakeGame from "./SnakeGame";
 
