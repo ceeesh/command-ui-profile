@@ -295,7 +295,7 @@ const Terminal = () => {
 
   if (currentGame === 'snake') {
     return (
-      <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-[70%] flex items-center justify-center">
+      <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] flex items-center justify-center scrollbar-modern">
         <SnakeGame onExit={handleGameExit} />
       </div>
     );
@@ -303,7 +303,7 @@ const Terminal = () => {
 
   if (currentGame === 'tetris') {
     return (
-      <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-[70%] flex items-center justify-center">
+      <div className="bg-black text-green-500 font-mono p-4 h-[600px] overflow-y-auto rounded-md border border-gray-800 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] flex items-center justify-center scrollbar-modern">
         <TetrisGame onExit={handleGameExit} />
       </div>
     );
@@ -311,7 +311,7 @@ const Terminal = () => {
 
   return (
     <div
-      className="bg-black text-green-500 font-mono p-4 h-[500px] overflow-y-auto rounded-md border border-gray-800 w-[70%]"
+      className="bg-black text-green-500 font-mono p-4 h-[500px] overflow-y-auto rounded-md border border-gray-800 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] scrollbar-modern"
       onClick={() => inputRef.current?.focus()}
     >
       <div className="mb-2">

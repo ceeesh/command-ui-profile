@@ -3,3 +3,29 @@
 body {
       background-color: oklch(21% 0.034 264.665);
 }
+
+/* Modern scrollbar styling */
+.scrollbar-modern::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-modern::-webkit-scrollbar-track {
+  background: #111827;
+  border-radius: 4px;
+}
+
+.scrollbar-modern::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.scrollbar-modern::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}
+
+/* Firefox scrollbar */
+.scrollbar-modern {
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e #111827;
+}
