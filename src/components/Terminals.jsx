@@ -227,7 +227,8 @@ const Terminal = () => {
 
   const handleCommand = (inputValue) => {
     const [cmdRaw, ...args] = inputValue.trim().split(" ");
-    const cmd = cmdRaw === "cls" ? "clear" : cmdRaw;
+    const cmdLower = cmdRaw.toLowerCase();
+    const cmd = cmdLower === "cls" ? "clear" : cmdLower;
 
     if (cmd === "clear") {
       setHistory([]);
